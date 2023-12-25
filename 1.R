@@ -9,4 +9,23 @@
 data(iris)
 head(iris)
 
+#3D圖形(3)
+#我們有個假設，3種花彼此之間的花瓣/花萼長寬應該有段差距，但同樣一種花不同的50個樣本應該相當接近，現在我們要來驗證一下自己想的對不對
+#我們先用2D散布圖來看看…
+COLOR = as.integer(iris$Species)+1 #先根據Species分顏色，顏色代碼2在R裡面是紅色；3是綠色；4是藍色
+
+par(mfrow = c(2, 3))
+plot(iris[,"Sepal.Length"], iris[,"Sepal.Width"], pch = 19, col = COLOR)
+legend("topright", levels(iris$Species), pch = 19, col = 2:4, bg = "gray90")
+plot(iris[,"Sepal.Length"], iris[,"Petal.Length"], pch = 19, col = COLOR)
+legend("bottomright", levels(iris$Species), pch = 19, col = 2:4, bg = "gray90")
+plot(iris[,"Sepal.Length"], iris[,"Petal.Width"], pch = 19, col = COLOR)
+legend("bottomright", levels(iris$Species), pch = 19, col = 2:4, bg = "gray90")
+plot(iris[,"Sepal.Width"], iris[,"Petal.Length"], pch = 19, col = COLOR)
+legend("topright", levels(iris$Species), pch = 19, col = 2:4, bg = "gray90")
+plot(iris[,"Sepal.Width"], iris[,"Petal.Width"], pch = 19, col = COLOR)
+legend("topright", levels(iris$Species), pch = 19, col = 2:4, bg = "gray90")
+plot(iris[,"Petal.Length"], iris[,"Petal.Width"], pch = 19, col = COLOR)
+legend("bottomright", levels(iris$Species), pch = 19, col = 2:4, bg = "gray90")
+#雖然勉強能分開，但明顯可以發現versicolor與virginica比較接近，現在我們希望把這樣的分類放在3D散布圖上。
 
