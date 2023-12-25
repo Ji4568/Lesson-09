@@ -38,3 +38,15 @@ scatterplot3d(x = iris[,"Sepal.Length"],
               z = iris[,"Petal.Length"],
               color = COLOR, pch = 19, angle = 40, main="3D Scatterplot")
 #感覺確實分的比較開了，但這個角度並不好調整，我們再試試其他套件
+
+#3D圖形(5)
+#這邊我們需要使用套件『rgl』。
+#套件『rgl』是在R裡面最常拿來繪製3D圖形的套件，他支援了互動式的3D圖像。
+library(rgl)
+#接著，我們選擇3個變項來繪製散布圖
+library(rgl)
+plot3d(x = iris[,"Sepal.Length"],
+       y = iris[,"Sepal.Width"],
+       z = iris[,"Petal.Length"],
+       col = COLOR, size = 3, main="3D Scatterplot")
+
