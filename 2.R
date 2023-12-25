@@ -33,3 +33,19 @@ nrow(subdat)
 #我們可以透過函數「PlotOnStaticMap()」把點放到MyMap上面
 PlotOnStaticMap(MyMap, lat = subdat$最小統計區中心點Y, lon = subdat$最小統計區中心點X, pch = 19, col = "red", cex = 1)
 
+#結合地理資訊的視覺化(4)
+#點實在太密了，還記得上週的練習2中，你如何將散布圖的點做顏色密度的改變嗎?
+x1 <- subdat$最小統計區中心點Y
+x2 <- subdat$最小統計區中心點X
+df <- data.frame(x1,x2)
+
+## Use densCols() output to get density at each point
+x <- densCols(x1,x2, colramp=colorRampPalette(c("black", "white")))
+df$dens <- col2rgb(x)[1,] + 1L
+
+## Map densities to colors
+cols <-  colorRampPalette(c("#000099", "#00FEFF", "#45FE4F", 
+                            "#FCFF00", "#FF9400", "#FF3100"))(256)
+df$col <- cols[df$dens]
+
+PlotOnStaticMap(MyMap, lat = df$x1, lon = df$x2, pch = 19, col = df$col, cex = 1.5)
