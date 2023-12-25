@@ -49,3 +49,33 @@ cols <-  colorRampPalette(c("#000099", "#00FEFF", "#45FE4F",
 df$col <- cols[df$dens]
 
 PlotOnStaticMap(MyMap, lat = df$x1, lon = df$x2, pch = 19, col = df$col, cex = 1.5)
+
+#結合地理資訊的視覺化(5)
+#如果我們希望畫行政區邊界的圖，我們可以下載各行政區地圖邊界的資訊”TWmap”。
+mapdat = read.table("TWmap/TWmap/鄉村資料.txt", fileEncoding = "UTF-8")
+head(mapdat)
+#找出與台南市有關的鄉里
+Tainan.mapdat = mapdat[mapdat[,4] == "臺南市",]
+nrow(Tainan.mapdat)
+
+#接著我們可以利用迴圈把村里邊界標上去
+MysubMap = GetMap(center = center, zoom = zoom, maptype = "satellite", API_console_key = 'AIzaSyA4DVFtF70aXE7RgrXViy2z5Ku2pMkVxFI')
+
+PlotOnStaticMap(MysubMap)
+
+for (i in 1:nrow(Tainan.mapdat)) {
+  linedat = read.csv(paste0("TWmap/TWmap/編號", Tainan.mapdat[i,1], ".csv"), header = TRUE, fileEncoding = 'CP950')
+  PlotOnStaticMap(MysubMap, lat = linedat[,2], lon = linedat[,1], FUN = lines, add = TRUE, col = "red")
+}
+
+#再把剛剛的點打上去
+MysubMap = GetMap(center = center, zoom = zoom, maptype = "satellite", API_console_key = 'AIzaSyA4DVFtF70aXE7RgrXViy2z5Ku2pMkVxFI')
+PlotOnStaticMap(MysubMap)
+
+for (i in 1:nrow(Tainan.mapdat)) {
+  linedat = read.csv(paste0("TWmap/TWmap/編號", Tainan.mapdat[i,1], ".csv"), header = TRUE, fileEncoding = 'CP950')
+  PlotOnStaticMap(MysubMap, lat = linedat[,2], lon = linedat[,1], FUN = lines, add = TRUE, col = "red")
+}
+
+PlotOnStaticMap(MysubMap, lat = df$x1, lon = df$x2, pch = 19, col = df$col, add = TRUE)
+
