@@ -109,3 +109,39 @@ for (i in 1:nrow(Tainan.mapdat)) {
   polygon(linedat[,1], linedat[,2], col = COL)
 }
 
+#結合地理資訊的視覺化(7)
+#還記得要怎樣讓顏色變成透明的嗎?我們可以使用8位色碼
+lat = c(22.88751, 23.41373)
+lon = c(120.023, 120.6562)
+plot.new()
+plot.window(xlim = lon, ylim = lat)
+
+for (i in 1:nrow(Tainan.mapdat)) {
+  linedat = read.csv(paste0("TWmap/TWmap/編號", Tainan.mapdat[i,1], ".csv"), header = TRUE, fileEncoding = 'CP950')
+  n.sample = sum(subdat[,16] == as.character(Tainan.mapdat[i,2]))
+  if (n.sample == 0) {COL = "#FFFFFF80"} 
+  else if (n.sample <= 3) {COL = "#00009980"} 
+  else if (n.sample <= 10) {COL = "#00FEFF80"} 
+  else if (n.sample <= 30) {COL = "#45FE4F80"} 
+  else if (n.sample <= 50) {COL = "#FCFF0080"} 
+  else if (n.sample <= 100) {COL = "#FF940080"} 
+  else {COL = "#FF310080"} 
+  polygon(linedat[,1], linedat[,2], col = COL)
+}
+#接著我們也可以將圖片疊在google地圖上，是不是看起來很專業呢?
+MysubMap = GetMap(center = center, zoom = zoom, maptype = "satellite", API_console_key = 'AIzaSyA4DVFtF70aXE7RgrXViy2z5Ku2pMkVxFI')
+PlotOnStaticMap(MysubMap)
+
+for (i in 1:nrow(Tainan.mapdat)) {
+  linedat = read.csv(paste0("TWmap/TWmap/編號", Tainan.mapdat[i,1], ".csv"), header = TRUE, fileEncoding = 'CP950')
+  n.sample = sum(subdat[,16] == as.character(Tainan.mapdat[i,2]))
+  if (n.sample == 0) {COL = "#FFFFFF80"} 
+  else if (n.sample <= 3) {COL = "#00009980"} 
+  else if (n.sample <= 10) {COL = "#00FEFF80"} 
+  else if (n.sample <= 30) {COL = "#45FE4F80"} 
+  else if (n.sample <= 50) {COL = "#FCFF0080"} 
+  else if (n.sample <= 100) {COL = "#FF940080"} 
+  else {COL = "#FF310080"} 
+  PlotOnStaticMap(MysubMap, lat = linedat[,2], lon = linedat[,1], FUN = polygon, add = TRUE, col = COL)
+}
+
