@@ -79,3 +79,33 @@ for (i in 1:nrow(Tainan.mapdat)) {
 
 PlotOnStaticMap(MysubMap, lat = df$x1, lon = df$x2, pch = 19, col = df$col, add = TRUE)
 
+#結合地理資訊的視覺化(6)
+#既然你有各行政區的地理邊界資訊，其實我們可以利用函數「polygon()」畫出地圖邊界：
+lat = c(22.88751, 23.41373)
+lon = c(120.023, 120.6562)
+plot.new()
+plot.window(xlim = lon, ylim = lat)
+
+for (i in 1:nrow(Tainan.mapdat)) {
+  linedat = read.csv(paste0("TWmap/TWmap/編號", Tainan.mapdat[i,1], ".csv"), header = TRUE, fileEncoding = 'CP950')
+  polygon(linedat[,1], linedat[,2], col = "white")
+}
+#我們可以結合這兩個資訊，畫出各行政區的發病狀況：
+lat = c(22.88751, 23.41373)
+lon = c(120.023, 120.6562)
+plot.new()
+plot.window(xlim = lon, ylim = lat)
+
+for (i in 1:nrow(Tainan.mapdat)) {
+  linedat = read.csv(paste0("TWmap/TWmap/編號", Tainan.mapdat[i,1], ".csv"), header = TRUE, fileEncoding = 'CP950')
+  n.sample = sum(subdat[,16] == as.character(Tainan.mapdat[i,2]))
+  if (n.sample == 0) {COL = "#FFFFFF"} 
+  else if (n.sample <= 3) {COL = "#000099"} 
+  else if (n.sample <= 10) {COL = "#00FEFF"} 
+  else if (n.sample <= 30) {COL = "#45FE4F"} 
+  else if (n.sample <= 50) {COL = "#FCFF00"} 
+  else if (n.sample <= 100) {COL = "#FF9400"} 
+  else {COL = "#FF3100"} 
+  polygon(linedat[,1], linedat[,2], col = COL)
+}
+
