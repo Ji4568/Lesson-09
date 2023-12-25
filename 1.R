@@ -29,3 +29,12 @@ plot(iris[,"Petal.Length"], iris[,"Petal.Width"], pch = 19, col = COLOR)
 legend("bottomright", levels(iris$Species), pch = 19, col = 2:4, bg = "gray90")
 #雖然勉強能分開，但明顯可以發現versicolor與virginica比較接近，現在我們希望把這樣的分類放在3D散布圖上。
 
+#3D圖形(4)
+#這邊我們需要使用套件『scatterplot3d』。
+library(scatterplot3d)
+#接著，我們選擇3個變項來繪製散布圖
+scatterplot3d(x = iris[,"Sepal.Length"],
+              y = iris[,"Sepal.Width"],
+              z = iris[,"Petal.Length"],
+              color = COLOR, pch = 19, angle = 40, main="3D Scatterplot")
+#感覺確實分的比較開了，但這個角度並不好調整，我們再試試其他套件
