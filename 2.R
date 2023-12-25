@@ -22,5 +22,14 @@ PlotOnStaticMap(MyMap)
 
 #如果你想要畫衛星圖，可以這樣…
 MyMap2 = GetMap(center = center, zoom = zoom, maptype = "satellite", API_console_key = 'AIzaSyA4DVFtF70aXE7RgrXViy2z5Ku2pMkVxFI')
-
 PlotOnStaticMap(MyMap2)
+
+#結合地理資訊的視覺化(3)
+#接著我們可以透過索引函數找出台南市在2015年9月份整個月份的登革熱病例
+dat[,1] = as.Date(dat[,1])
+subdat = dat[dat[,1] <= as.Date("2015-09-30") & dat[,1] >= as.Date("2015-09-01") & dat[,6] == "台南市",]
+nrow(subdat)
+#台南市9月份居然有12815個新登革熱病例！
+#我們可以透過函數「PlotOnStaticMap()」把點放到MyMap上面
+PlotOnStaticMap(MyMap, lat = subdat$最小統計區中心點Y, lon = subdat$最小統計區中心點X, pch = 19, col = "red", cex = 1)
+
